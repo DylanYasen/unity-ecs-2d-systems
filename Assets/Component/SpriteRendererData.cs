@@ -5,7 +5,5 @@ using UnityEngine;
 public struct SpriteRendererData : IComponentData
 {
     public int spriteAssetHash;
-    // public Mesh mesh;
-    // public Material material;
     public int layer;
 }

@@ -1,11 +1,11 @@
-﻿using Unity.Entities;
-using Unity.Mathematics;
-using UnityEngine;
-using UnityEngine.Assertions;
-using Unity.Transforms;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Entities;
+using Unity.Mathematics;
+using Unity.Transforms;
+using UnityEngine;
+using UnityEngine.Assertions;
 using static Settings;
 
 public class Bootstrap : MonoBehaviour
@@ -33,8 +33,6 @@ public class Bootstrap : MonoBehaviour
 
     public static void NewGame()
     {
-        LoadAsset();
-
         var entityManager = World.Active.EntityManager;
         var playerArchetype = entityManager.CreateArchetype(
             typeof(Translation),
@@ -44,26 +42,30 @@ public class Bootstrap : MonoBehaviour
             typeof(PlayerInputData)
         );
 
-        var player = entityManager.CreateEntity(playerArchetype);
-        entityManager.SetComponentData(player, new SpriteRendererData
+        for (int i = 0; i < 5000; i++)
         {
-            spriteAssetHash = Animator.StringToHash("bomber-idle-1"),
-        });
-        entityManager.SetComponentData(player, new Rotation
-        {
-            Value = Quaternion.identity
-        });
-        entityManager.SetComponentData(player, new Translation
-        {
-            Value = new float3(0, 0, 0)
-        });
-        entityManager.SetComponentData(player, new SpriteAnimationData
-        {
-            animAssetHash = Animator.StringToHash("bomber-idle"),
-            framesPerSec = 20,
-            playRate = 1,
-            frameTime = 1.0f / 20.0f,
-        });
+            var player = entityManager.CreateEntity(playerArchetype);
+            entityManager.SetComponentData(player, new SpriteRendererData
+            {
+                spriteAssetHash = GetAssetHash("bomber-idle-1"),
+            });
+            entityManager.SetComponentData(player, new Rotation
+            {
+                Value = Quaternion.identity
+            });
+            entityManager.SetComponentData(player, new Translation
+            {
+                Value = new float3(0, 0, 0)
+            });
+
+            entityManager.SetComponentData(player, new SpriteAnimationData
+            {
+                animAssetHash = GetAssetHash("bomber-idle"),
+                framesPerSec = 20,
+                frameTime = 1.0f / 20.0f,
+                playRate = 1.0f,
+            });
+        }
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -72,6 +74,8 @@ public class Bootstrap : MonoBehaviour
         var settingsGo = GameObject.Find("Settings");
         Settings = settingsGo?.GetComponent<Settings>();
         Assert.IsNotNull(Settings);
+
+        LoadAsset();
     }
 
     public static Sprite GetSpriteAsset(int assetHash)
@@ -83,8 +87,44 @@ public class Bootstrap : MonoBehaviour
 
     public static SpriteAnimAsset GetAnimAsset(int assetHash)
     {
-        SpriteAnimAsset asset;
-        animAssetRegistry.TryGetValue(assetHash, out asset);
+        SpriteAnimAsset asset = default;
+        if (animAssetRegistry != null)
+        {
+            animAssetRegistry.TryGetValue(assetHash, out asset);
+        }
         return asset;
+    }
+
+    public static SpriteAnimAsset GetAnimAsset(string assetName)
+    {
+        SpriteAnimAsset asset = default;
+        if (animAssetRegistry != null)
+        {
+            animAssetRegistry.TryGetValue(GetAssetHash(assetName), out asset);
+        }
+        return asset;
+    }
+
+    public static int GetAssetHash(string assetName)
+    {
+        return Animator.StringToHash(assetName);
+    }
+
+    public static int[] GetAssetHashes(string[] assetNames)
+    {
+        int[] hashes = new int[assetNames.Length];
+        for (int i = 0; i < assetNames.Length; i++)
+        {
+            hashes[i] = GetAssetHash(assetNames[i]);
+        }
+        return hashes;
+    }
+
+    public static void GetAssetHashesNonAlloc(string[] assetNames, ref int[] hashes)
+    {
+        for (int i = 0; i < assetNames.Length; i++)
+        {
+            hashes[i] = GetAssetHash(assetNames[i]);
+        }
     }
 }
