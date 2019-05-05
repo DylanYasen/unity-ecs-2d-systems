@@ -4,6 +4,7 @@ using Unity.Entities;
 using Unity.Jobs;
 using UnityEngine;
 
+[UpdateAfter(typeof(SpriteAnimationTransitionSystem))]
 public class SpriteAnimationSystem : JobComponentSystem
 {
     private struct UpdateAnimJob : IJobForEach<SpriteRendererData, SpriteAnimationData>

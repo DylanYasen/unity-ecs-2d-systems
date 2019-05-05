@@ -1,3 +1,4 @@
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
@@ -12,3 +13,12 @@ public struct SpriteAnimationData : IComponentData
     public float frameTime;
     public int spriteIndex;
 }
+
+public struct SpriteAnimTransitionData : IBufferElementData
+{
+    public int Hash;
+    public int SourceAnimAssetHash;
+    public int TargetAnimAssetHash;
+    public bool Valid;
+}
+

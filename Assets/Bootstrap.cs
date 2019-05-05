@@ -38,8 +38,9 @@ public class Bootstrap : MonoBehaviour
             typeof(Translation),
             typeof(Rotation),
             typeof(SpriteRendererData),
+            typeof(PlayerInputData),
             typeof(SpriteAnimationData),
-            typeof(PlayerInputData)
+            typeof(SpriteAnimTransitionData)
         );
 
         for (int i = 0; i < 5000; i++)
@@ -64,6 +65,20 @@ public class Bootstrap : MonoBehaviour
                 framesPerSec = 20,
                 frameTime = 1.0f / 20.0f,
                 playRate = 1.0f,
+            });
+
+            DynamicBuffer<SpriteAnimTransitionData> animTransitionBuffer = entityManager.GetBuffer<SpriteAnimTransitionData>(player);
+            animTransitionBuffer.Add(new SpriteAnimTransitionData
+            {
+                Hash = GetAssetHash("idle-to-run"),
+                SourceAnimAssetHash = GetAssetHash("bomber-idle"),
+                TargetAnimAssetHash = GetAssetHash("bomber-run")
+            });
+            animTransitionBuffer.Add(new SpriteAnimTransitionData
+            {
+                Hash = GetAssetHash("run-to-idle"),
+                SourceAnimAssetHash = GetAssetHash("bomber-run"),
+                TargetAnimAssetHash = GetAssetHash("bomber-idle"),
             });
         }
     }
