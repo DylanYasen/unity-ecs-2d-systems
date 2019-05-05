@@ -206,7 +206,6 @@ GameObject:
   - component: {fileID: 2010826062}
   - component: {fileID: 2010826061}
   - component: {fileID: 2010826060}
-  - component: {fileID: 2010826063}
   m_Layer: 0
   m_Name: Settings
   m_TagString: Untagged
@@ -310,6 +309,7 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 845ab11996952dc48aa5c75d43f1de77, type: 3}
     - {fileID: 21300000, guid: 2a5d23355a37449489ece3b484c3f9d6, type: 3}
     - {fileID: 21300000, guid: e3ef88677c751f645bac697e208b877e, type: 3}
+    spriteAssetHashes: 7c4bf52ec61afcb7502afbc0f3bf9f5e658f9829dfde91b049ee96c7d8f329574ec32e207d1746adeb2741da51764843c7464f3464d32baaf2e32cdd48b22544de8222334f9f9da3d9af9ad4be446b8628746cf1922565680415621fa780068131b001f68be1086f
   - ID: bomber-run
     sprites:
     - {fileID: 21300000, guid: 996e25ed12a99c94cba84da1f6ffbe6e, type: 3}
@@ -326,6 +326,7 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 1b4fa4a132e7458499466ac00a13b6d9, type: 3}
     - {fileID: 21300000, guid: 6148f5439526490428823f4203814491, type: 3}
     - {fileID: 21300000, guid: b0b05167a0d41e74496c7fa63ab6ca36, type: 3}
+    spriteAssetHashes: 2f569c9e9507950703379270a0a2f6ee3692f1998cc3f8001af3ff778bee40e71dde47902e7e945fb84e9328021f9ab1942f9dc637baf958
 --- !u!114 &2010826061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,17 +349,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a7c01de56a9c7164292a9180f6bfb481, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2010826063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2010826058}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e2a0fe820b838a47aae7a3b0ca8a56d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
