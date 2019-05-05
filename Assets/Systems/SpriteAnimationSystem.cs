@@ -4,6 +4,7 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 
+[DisableAutoCreation]
 public class SpriteAnimationSystem : ComponentSystem
 {
     private EntityQuery query;

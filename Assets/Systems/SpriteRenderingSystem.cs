@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [ExecuteInEditMode]
+[DisableAutoCreation]
 public class SpriteRenderingSystem : ComponentSystem
 {
     private EntityQuery query;
@@ -31,9 +32,8 @@ public class SpriteRenderingSystem : ComponentSystem
         {
             var sprite = Bootstrap.GetSpriteAsset(renderData.spriteAssetHash);
 
-            Mesh mesh;
             Material material;
-            if (!meshRegistry.TryGetValue(entity.Index, out mesh))
+            if (!meshRegistry.TryGetValue(entity.Index, out Mesh mesh))
             {
                 var size = math.max(sprite.texture.width, sprite.texture.height) / (float)sprite.pixelsPerUnit;
 
@@ -53,6 +53,7 @@ public class SpriteRenderingSystem : ComponentSystem
             // Graphics.DrawMesh(mesh, position.Value, rot.Value, material, 1, Camera.main, 0, null, false, false, false);
         });
     }
+
 
     public static Mesh GenerateQuad(float size, Vector2 pivot)
     {
