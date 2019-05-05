@@ -1,44 +1,40 @@
 using Unity.Burst;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
-using Unity.Mathematics;
 using UnityEngine;
 
 [DisableAutoCreation]
-public class SpriteAnimationSystem : ComponentSystem
+public class SpriteAnimationSystem : JobComponentSystem
 {
-    private EntityQuery query;
-
-    protected override void OnCreate()
+    private struct UpdateAnimJob : IJobForEach<SpriteRendererData, SpriteAnimationData>
     {
-        query = GetEntityQuery(
-            ComponentType.ReadWrite<SpriteRendererData>(),
-            ComponentType.ReadWrite<SpriteAnimationData>()
-        );
-    }
+        public float dt;
 
-    [BurstCompile]
-    protected override void OnUpdate()
-    {
-        var dt = Time.deltaTime;
-
-        Entities.With(query).ForEach(
-        (Entity entity, ref SpriteRendererData renderData, ref SpriteAnimationData animData) =>
+        public void Execute(ref SpriteRendererData renderer, ref SpriteAnimationData animData)
         {
-            var animAssset = Bootstrap.GetAnimAsset(animData.animAssetHash);
-            var frameCount = animAssset.sprites.Length;
+            var animAsset = Bootstrap.GetAnimAsset(animData.animAssetHash);
 
             // todo: handle play rate
             if (animData.timer >= animData.frameTime)
             {
-                animData.spriteIndex = (animData.spriteIndex + 1) % frameCount;
+                animData.spriteIndex = (animData.spriteIndex + 1) % animAsset.spriteAssetHashes.Length;
                 animData.timer -= animData.frameTime;
             }
 
-            var sprite = animAssset.sprites[animData.spriteIndex];
-            renderData.spriteAssetHash = Animator.StringToHash(sprite.name);
+            renderer.spriteAssetHash = animAsset.spriteAssetHashes[animData.spriteIndex];
 
             animData.timer += dt;
-        });
+        }
+    }
+
+    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    {
+        var job = new UpdateAnimJob
+        {
+            dt = Time.deltaTime
+        };
+        inputDeps = job.Schedule(this, inputDeps);
+        return inputDeps;
     }
 }
