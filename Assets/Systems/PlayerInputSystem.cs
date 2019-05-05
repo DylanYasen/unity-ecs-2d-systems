@@ -3,8 +3,6 @@ using Unity.Mathematics;
 using UnityEngine;
 using Unity.Transforms;
 
-[DisableAutoCreation]
-[UpdateInGroup(typeof(SimulationSystemGroup))]
 public class PlayerInputSystem : ComponentSystem
 {
     private EntityQuery query;

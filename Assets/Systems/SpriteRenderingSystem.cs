@@ -7,8 +7,7 @@ using Unity.Transforms;
 using System.Collections;
 using System.Collections.Generic;
 
-[ExecuteInEditMode]
-[DisableAutoCreation]
+[UpdateInGroup(typeof(PresentationSystemGroup))]
 public class SpriteRenderingSystem : ComponentSystem
 {
     private EntityQuery query;

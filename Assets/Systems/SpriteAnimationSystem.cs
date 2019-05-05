@@ -4,7 +4,6 @@ using Unity.Entities;
 using Unity.Jobs;
 using UnityEngine;
 
-[DisableAutoCreation]
 public class SpriteAnimationSystem : JobComponentSystem
 {
     private struct UpdateAnimJob : IJobForEach<SpriteRendererData, SpriteAnimationData>
